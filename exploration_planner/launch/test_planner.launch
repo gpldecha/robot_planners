@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+<!-- launch-prefix="xterm -e gdb -args"-->
+
+  <node name="test_planner" pkg="exploration_planner" type="test_exploration"  required="true" output="screen"/>
+
+
+</launch>
