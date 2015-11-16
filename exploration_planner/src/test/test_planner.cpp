@@ -20,14 +20,14 @@ int main(int argc,char** argv){
     std::string path_parameters = "/home/guillaume/MatlabWorkSpace/peg_in_hole_RL/PolicyModelSaved/PolicyModel_txt/gmm_xhu";
 
 
-    GMM gmm;//(path_parameters);
+    stats::GMM gmm;//(path_parameters);
     //gmm.load(path_parameters);
 
    // planners::GMAPlanner    gmap_planner;
    // gmap_planner.load(path_parameters);
 
 
-    belief::Gmm_planner bel_gmm_planner(nh,sensor_topic_name,fixed_frame,path_parameters,init_ee);
+   // belief::Gmm_planner bel_gmm_planner(nh,sensor_topic_name,fixed_frame,path_parameters,init_ee);
 
 
 

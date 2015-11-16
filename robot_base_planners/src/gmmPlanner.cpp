@@ -11,37 +11,37 @@ using namespace planners;
   **/
 
 
-BaseGMMPlanner::BaseGMMPlanner(){
+BaseGMM_EE_Planner::BaseGMM_EE_Planner(){
+    bFirst = true;
+}
+BaseGMM_EE_Planner::BaseGMM_EE_Planner(const std::vector<std::size_t>& in,const std::vector<std::size_t>& out)
+    : in(in),out(out)
+{
+    bFirst = true;
 }
 
-void BaseGMMPlanner::load(std::string path_parameters){
+
+void BaseGMM_EE_Planner::load(std::string path_parameters){
     gmm.load(path_parameters);
 }
 
-void BaseGMMPlanner::condition(arma::vec& x){
-
-    /*gmm.condition(gmm_cond,x,in,out);
-    max_pi=0;
-    for(unsigned int k = 0; k < gmm_cond.K;k++){
-        if(max_pi < gmm_cond.Priors[k]){
-            max_pi = gmm_cond.Priors[k];
-        }
+void BaseGMM_EE_Planner::condition(arma::colvec& x){
+    if(bFirst){
+        gmm_c.condition(gmm,in,out);
+        bFirst=false;
     }
-
-    for(unsigned int i = 0; i < gmm_cond.K;i++){
-        assert(gmm_cond.getMu(i).is_finite());
-    }*/
+    gmm_c.condition(x,gmm);
 }
 
-void BaseGMMPlanner::drawConditional(const arma::vec3 &position, arma::mat33 * const pRot){
+void BaseGMM_EE_Planner::drawConditional(const arma::vec3 &position, arma::mat33 * const pRot){
 
-    if(max_pi > 0){
+    /*if(max_pi > 0){
         for(unsigned int k = 0 ; k < gmm_cond.K;k++){
             mu_tmp = gmm_cond.getMu(k);
             mu_tmp = mu_tmp/arma::norm(mu_tmp,2);
             if(pRot != NULL){
                 mu_tmp = (*pRot) * mu_tmp;
-            }
+            }*/
 
             /*      pi_tmp = gmm_cond.Priors[k];
             scale = rescale(pi_tmp,0,max_pi,0.05,0.2);
@@ -53,8 +53,8 @@ void BaseGMMPlanner::drawConditional(const arma::vec3 &position, arma::mat33 * c
             GLTools::SetColor(rgb[0],rgb[1],rgb[2],1);
             GLTools::DrawVector(Vector3(mu_tmp(0),mu_tmp(1),mu_tmp(2)));
             glPopMatrix();*/
-        }
-    }
+    //    }
+  //  }
 }
 
 
@@ -66,25 +66,29 @@ void BaseGMMPlanner::drawConditional(const arma::vec3 &position, arma::mat33 * c
 
   **/
 
+GMR_EE_Planner::GMR_EE_Planner()
+    :BaseGMM_EE_Planner()
+{
 
-void GMRPlanner::initConditional(){
-    in.resize(4);
-    out.resize(3);
-
-    for(int i = 0; i < 4; i++){
-        in[i] =i+3;
-    }
-    for(int i = 0; i < 3;i++){
-        out[i] = i;
-    }
 }
 
-void GMRPlanner::getDirection(arma::vec3 &direction){
-    /*   direction.zeros();
-    for(unsigned int k = 0; k < gmm_cond.K;k++){
-        direction = direction + gmm_cond.Priors[k] * gmm_cond.getMu(k);
-    }
-*/
+GMR_EE_Planner::GMR_EE_Planner(const std::vector<std::size_t>& in,const std::vector<std::size_t>& out):
+    BaseGMM_EE_Planner(in,out)
+{
+
+}
+
+void GMR_EE_Planner::gmr(arma::colvec& x_in){
+    condition(x_in);
+    gmm_c.gmm_c.expection(velocity_ee);
+}
+
+void GMR_EE_Planner::get_ee_linear_velocity(arma::colvec3 &direction){
+    direction = velocity_ee;
+}
+
+void GMR_EE_Planner::get_ee_angular_velocity(arma::colvec3 &ang_velocity){
+
 }
 
 
@@ -119,7 +123,7 @@ void GMAPlanner::initConditional(){
 
 }
 
-void GMAPlanner::getDirection(arma::vec3& direction){
+void GMAPlanner::get_ee_linear_velocity(arma::vec3& direction){
 
     getIndexs();
     if(bFirst){
@@ -149,7 +153,7 @@ void GMAPlanner::getDirection(arma::vec3& direction){
             //            std::cout<< " (GMAPlanner)::compute conditionals " << std::endl;
             mDirection.zeros();
             for(unsigned int i = 0; i < index.size();i++){
-                mu = gmm_cond.getMu(index[i]);
+                //mu = gmm_cond.getMu(index[i]);
                 mu = mu/arma::norm(mu,2);
                 assert(mu.is_finite());
                 mDirection = mDirection + alphas[i] * mu;
@@ -168,6 +172,11 @@ void GMAPlanner::getDirection(arma::vec3& direction){
     direction = mDirection;
 }
 
+void GMAPlanner::get_ee_angular_velocity(arma::colvec3& ang_velocity){
+
+}
+
+
 void GMAPlanner::pick_random_direction(){
 /*     dist_mus = std::discrete_distribution<int>(gmm_cond.Priors.begin(),gmm_cond.Priors.end());
     int k = dist_mus(generator);
@@ -185,7 +194,7 @@ void GMAPlanner::alpha(const arma::vec3& direction){
 
     for(unsigned int i = 0; i < index.size();i++){
         j = index[i];
-        mu = gmm_cond.getMu(j);
+    //    mu = gmm_cond.getMu(j);
         mu = mu/arma::norm(mu,2);
         assert(mu.is_finite());
         //alphas[i] = gmm_cond.Priors[j] * exp(-acos( arma::dot(mu,direction)));
@@ -215,10 +224,10 @@ void GMAPlanner::alpha(const arma::vec3& direction){
 
 void GMAPlanner::getIndexs(){
     index.clear();
-    max_pi = 0;
-    pi_tmp = 0;
+    //max_pi = 0;
+   // pi_tmp = 0;
     max_index =0;
-    for(unsigned int k = 0; k < gmm_cond.K;k++){
+   /* for(unsigned int k = 0; k < gmm_cond.K;k++){
         //pi_tmp = gmm_cond.Priors[k];
         if(pi_tmp > 0.1){
             index.push_back(k);
@@ -227,7 +236,7 @@ void GMAPlanner::getIndexs(){
                 max_index = k;
             }
         }
-    }
+    }*/
 }
 
 
@@ -265,7 +274,7 @@ void SimplePlanner::getDirection(arma::vec3 &direction){
 
 
 void HybridPlanner::initialise(){
-    gmaPlanner.initConditional();
+   // gmaPlanner.initConditional();
     bFirst=false;
 }
 
@@ -277,7 +286,7 @@ void HybridPlanner::setUncertainty(double uncertainty){
     this->uncertainty = uncertainty;
 }
 
-void HybridPlanner::getDirection(arma::vec3& direction){
+void HybridPlanner::get_ee_linear_velocity(arma::vec3& direction){
     if(bFirst || uncertainty < 0.062){
         simplePlanner.getDirection(direction);
         if(!bFirst){
@@ -285,10 +294,13 @@ void HybridPlanner::getDirection(arma::vec3& direction){
             bFirst = true;
         }
     }else{
-        gmaPlanner.getDirection(direction);
+      //  gmaPlanner.get_ee_linear_velocity(direction);
     }
 }
 
+void HybridPlanner::get_ee_angular_velocity(arma::colvec3& ang_velocity){
+
+}
 
 
 

@@ -92,7 +92,7 @@ void DiscretePlanner::setPosition(const arma::vec3& position){
    // cloud.getPoint(state_index).print("closest point");
 }
 
-void DiscretePlanner::getDirection(arma::vec3& direction){
+void DiscretePlanner::get_ee_linear_velocity(arma::vec3& direction){
     // DiscretePlanner::setPosition should be called before this method
   //  std::cout<< "DiscretePlanner::getDirection" << std::endl;
    // std::cout<< "state_index: " << state_index << std::endl;

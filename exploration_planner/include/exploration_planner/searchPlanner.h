@@ -46,12 +46,12 @@ public:
 
     // Controllers
 
-    planners::GMAPlanner mGmmPlanner;
+  /*  planners::GMAPlanner mGmmPlanner;
     planners::GMRPlanner mGmmAir;
     planners::SimplePlanner mSimplePlanner;
     planners::HybridPlanner mHybridPlanner;
 
-    planners::DiscretePlanner mDiscretePlanner;
+    planners::DiscretePlanner mDiscretePlanner;*/
 
 };
 

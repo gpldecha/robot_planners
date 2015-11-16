@@ -3,13 +3,13 @@
 
 #include <armadillo>
 
-class BasePlanner {
+class Base_EE_Planner {
 
 public:
 
-    virtual void getDirection(arma::vec3& direction) = 0;
+    virtual void get_ee_linear_velocity(arma::colvec3& linear_velocity) = 0;
 
-    void drawDirection(const arma::vec3& direction,const arma::vec3 &position);
+    virtual void get_ee_angular_velocity(arma::colvec3& ang_velocity) = 0;
 
 private:
 

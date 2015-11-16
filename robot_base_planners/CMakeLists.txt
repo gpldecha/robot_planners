@@ -24,11 +24,13 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${INCLUDE_DIR})
 set(H_FILES ${INCLUDE_DIR}/robot_planners/basePlanner.h
 	    ${INCLUDE_DIR}/robot_planners/discretePlanner.h
 	    ${INCLUDE_DIR}/robot_planners/gmmPlanner.h
+            ${INCLUDE_DIR}/robot_planners/planner_ee.h
 )
 
 set(S_FILES ${SRC_DIR}/basePlanner.cpp
             ${SRC_DIR}/discretePlanner.cpp
 	    ${SRC_DIR}/gmmPlanner.cpp
+            ${SRC_DIR}/planner_ee.cpp
 )
 
 add_library(${PROJECT_NAME} ${H_FILES} ${S_FILES} )

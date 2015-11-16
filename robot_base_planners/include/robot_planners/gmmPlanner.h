@@ -7,8 +7,6 @@
 #include "basePlanner.h"
 #include "statistics/distributions/distributions.h"
 #include "statistics/distributions/gmm.h"
-//#include "colormap.h"
-//#include "utilities.h"
 
 #include <string>
 #include <armadillo>
@@ -17,55 +15,55 @@
 namespace planners{
 
 
-class BaseGMMPlanner: public BasePlanner{
+class BaseGMM_EE_Planner: public Base_EE_Planner{
 
 public:
 
-    BaseGMMPlanner();
+    BaseGMM_EE_Planner();
 
-    virtual void initConditional() = 0;
+    BaseGMM_EE_Planner(const std::vector<std::size_t>& in,const std::vector<std::size_t>& out);
 
     void load(std::string path_parameters);
 
-    void condition(arma::vec& x);
-
     virtual void drawConditional(const arma::vec3 &position,arma::mat33 *const pRot = NULL );
-
-
 
 protected:
 
-    GMM gmm, gmm_cond;
+    void condition(arma::colvec& x);
+
+protected:
+
+    stats::GMM  gmm;
+    stats::cGMM gmm_c;
+
     // indexs for conditioning
-    std::vector<unsigned int> in;
-    std::vector<unsigned int> out;
+    std::vector<std::size_t> in;
+    std::vector<std::size_t> out;
 
-    // variables for drawing
-  //  ColorMap colormap;
-    double max_pi;
-    arma::vec3 mu_tmp;
-    double pi_tmp;
-    double scale;
-    unsigned char rgb[3];
-
-    //MathLib::Mat4 HTable;
-   //MathLib::TVector<4> Ttmp;
-
+    bool bFirst;
 };
 
-class GMRPlanner:     public BaseGMMPlanner {
+class GMR_EE_Planner:     public BaseGMM_EE_Planner {
 
 public:
 
-    virtual void initConditional();
+    GMR_EE_Planner();
 
-    void getDirection(arma::vec3 &direction);
+    GMR_EE_Planner(const std::vector<std::size_t>& in,const std::vector<std::size_t>& out);
 
+    void gmr(arma::colvec& x_in);
 
+    void get_ee_linear_velocity(arma::colvec3 &direction);
+
+    void get_ee_angular_velocity(arma::colvec3& ang_velocity);
+
+private:
+
+    arma::colvec3 velocity_ee; /// linear velocity of the end-effector
 
 };
 
-class GMAPlanner:     public BaseGMMPlanner{
+class GMAPlanner:     public BaseGMM_EE_Planner{
 
 
 public:
@@ -76,7 +74,9 @@ public:
 
     virtual void initConditional();
 
-    void getDirection(arma::vec3 &direction);
+    void get_ee_linear_velocity(arma::vec3 &direction);
+
+    void get_ee_angular_velocity(arma::colvec3& ang_velocity);
 
 
 private:
@@ -134,13 +134,15 @@ private:
 
 };
 
-class HybridPlanner: public BasePlanner{
+class HybridPlanner: public Base_EE_Planner{
 
 public:
 
     void initialise();
 
-    virtual void getDirection(arma::vec3& direction);
+    virtual void get_ee_linear_velocity(arma::vec3& direction);
+
+    virtual void get_ee_angular_velocity(arma::colvec3& ang_velocity);
 
     void setUncertainty(double uncertainty);
 
@@ -152,7 +154,7 @@ private:
     bool bFirst;
 
 public:
-    GMAPlanner gmaPlanner;
+    //GMAPlanner gmaPlanner;
     SimplePlanner simplePlanner;
 
 

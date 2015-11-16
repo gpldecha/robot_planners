@@ -136,7 +136,7 @@ bool Gmm_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedbac
 
     static tf::TransformBroadcaster br;
     ros::Rate loop_rate(rate);
-    while(ros::ok() && bBaseRun) {
+    while(ros::ok()/* && bBaseRun*/) {
 
         br.sendTransform(tf::StampedTransform(trans_att, ros::Time::now(), world_frame, "ee_final"));
 
@@ -184,7 +184,7 @@ bool Gmm_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedbac
         {
             ROS_INFO("Preempted");
             as_.setPreempted();
-            bBaseRun = false;
+            //bBaseRun = false;
             break;
         }
 
@@ -210,11 +210,12 @@ bool Gmm_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedbac
 
     }
 
-    if(!bBaseRun){
+    /*if(!bBaseRun){
         return false;
     }else{
         return true;
-    }
+    }*/
+    return true;
 }
 
 

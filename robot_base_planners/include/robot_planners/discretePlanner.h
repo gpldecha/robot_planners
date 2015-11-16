@@ -25,7 +25,7 @@ using namespace nanoflann;
 namespace planners{
 
 
-class DiscretePlanner : public BasePlanner{
+class DiscretePlanner : public Base_EE_Planner{
 
 
 public:
@@ -112,7 +112,7 @@ public:
 
     void setPosition(const arma::vec3& position);
 
-    virtual void getDirection(arma::vec3& direction);
+    virtual void get_ee_linear_velocity(arma::vec3& direction);
 
     void drawGrid();
 

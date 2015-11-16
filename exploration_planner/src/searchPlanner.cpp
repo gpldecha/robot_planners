@@ -9,7 +9,7 @@ SearchPlanner::SearchPlanner(){
 }
 
 void SearchPlanner::init(){
-    bFirst=true;
+ /*   bFirst=true;
     isInAir = true;
     obs = arma::vec(4);
 
@@ -28,12 +28,12 @@ void SearchPlanner::init(){
 
     mGmmAir.initConditional();
     mGmmPlanner.initConditional();
-    mHybridPlanner.initialise();
+    mHybridPlanner.initialise();*/
 }
 
 void SearchPlanner::GetDirection(arma::vec3& direction,const arma::vec3& bel_pos,double uncertainty){
 
-    switch(ctrl_mode){
+/*    switch(ctrl_mode){
 
     case CTRLMODES::NONE:
     {
@@ -98,7 +98,7 @@ void SearchPlanner::GetDirection(arma::vec3& direction,const arma::vec3& bel_pos
 
     }
 
-    }
+    }*/
 
 }
 
@@ -114,7 +114,7 @@ void SearchPlanner::setTarget(const arma::vec3& target){
 
      // TODO: take advantage of polymorphism, have mPlanner->draw(direction,position);
 
-     switch(ctrl_mode){
+ /*    switch(ctrl_mode){
 
      case CTRLMODES::NONE:
      {
@@ -141,5 +141,5 @@ void SearchPlanner::setTarget(const arma::vec3& target){
         break;
      }
 
-     }
+     }*/
  }

@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/guillaume/roscode/catkin_ws/src/robot_planners/robot_base_planners/build/devel/setup.sh

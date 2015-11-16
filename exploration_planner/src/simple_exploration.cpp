@@ -124,7 +124,7 @@ bool Simple_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feed
     double dist_bel_true = 1;
 
     ros::Rate loop_rate(rate);
-    while(ros::ok() && bBaseRun) {
+    while(ros::ok() /*&& bBaseRun*/) {
 
         br.sendTransform(tf::StampedTransform(trans_att, ros::Time::now(), world_frame, "ee_final"));
 
@@ -212,7 +212,7 @@ bool Simple_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feed
         {
             ROS_INFO("Preempted");
             as_.setPreempted();
-            bBaseRun = false;
+           // bBaseRun = false;
             break;
         }
 
@@ -238,11 +238,12 @@ bool Simple_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feed
 
     }
 
-    if(!bBaseRun){
+  /*  if(!bBaseRun){
         return false;
     }else{
         return true;
-    }
+    }*/
+    return true;
 }
 
 
