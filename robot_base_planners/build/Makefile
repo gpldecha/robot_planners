@@ -679,29 +679,29 @@ src/gmmPlanner.cpp.s:
 	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/gmmPlanner.cpp.s
 .PHONY : src/gmmPlanner.cpp.s
 
-src/planner_ee.o: src/planner_ee.cpp.o
-.PHONY : src/planner_ee.o
+src/gmr_ee_action.o: src/gmr_ee_action.cpp.o
+.PHONY : src/gmr_ee_action.o
 
 # target to build an object file
-src/planner_ee.cpp.o:
-	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/planner_ee.cpp.o
-.PHONY : src/planner_ee.cpp.o
+src/gmr_ee_action.cpp.o:
+	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/gmr_ee_action.cpp.o
+.PHONY : src/gmr_ee_action.cpp.o
 
-src/planner_ee.i: src/planner_ee.cpp.i
-.PHONY : src/planner_ee.i
+src/gmr_ee_action.i: src/gmr_ee_action.cpp.i
+.PHONY : src/gmr_ee_action.i
 
 # target to preprocess a source file
-src/planner_ee.cpp.i:
-	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/planner_ee.cpp.i
-.PHONY : src/planner_ee.cpp.i
+src/gmr_ee_action.cpp.i:
+	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/gmr_ee_action.cpp.i
+.PHONY : src/gmr_ee_action.cpp.i
 
-src/planner_ee.s: src/planner_ee.cpp.s
-.PHONY : src/planner_ee.s
+src/gmr_ee_action.s: src/gmr_ee_action.cpp.s
+.PHONY : src/gmr_ee_action.s
 
 # target to generate assembly for a file
-src/planner_ee.cpp.s:
-	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/planner_ee.cpp.s
-.PHONY : src/planner_ee.cpp.s
+src/gmr_ee_action.cpp.s:
+	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/gmr_ee_action.cpp.s
+.PHONY : src/gmr_ee_action.cpp.s
 
 # Help Target
 help:
@@ -760,9 +760,9 @@ help:
 	@echo "... src/gmmPlanner.o"
 	@echo "... src/gmmPlanner.i"
 	@echo "... src/gmmPlanner.s"
-	@echo "... src/planner_ee.o"
-	@echo "... src/planner_ee.i"
-	@echo "... src/planner_ee.s"
+	@echo "... src/gmr_ee_action.o"
+	@echo "... src/gmr_ee_action.i"
+	@echo "... src/gmr_ee_action.s"
 .PHONY : help
 
 
