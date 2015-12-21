@@ -679,6 +679,7 @@ src/gmmPlanner.cpp.s:
 	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/gmmPlanner.cpp.s
 .PHONY : src/gmmPlanner.cpp.s
 
+<<<<<<< HEAD
 src/velocity_reguliser.o: src/velocity_reguliser.cpp.o
 .PHONY : src/velocity_reguliser.o
 
@@ -702,6 +703,31 @@ src/velocity_reguliser.s: src/velocity_reguliser.cpp.s
 src/velocity_reguliser.cpp.s:
 	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/velocity_reguliser.cpp.s
 .PHONY : src/velocity_reguliser.cpp.s
+=======
+src/gmr_ee_action.o: src/gmr_ee_action.cpp.o
+.PHONY : src/gmr_ee_action.o
+
+# target to build an object file
+src/gmr_ee_action.cpp.o:
+	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/gmr_ee_action.cpp.o
+.PHONY : src/gmr_ee_action.cpp.o
+
+src/gmr_ee_action.i: src/gmr_ee_action.cpp.i
+.PHONY : src/gmr_ee_action.i
+
+# target to preprocess a source file
+src/gmr_ee_action.cpp.i:
+	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/gmr_ee_action.cpp.i
+.PHONY : src/gmr_ee_action.cpp.i
+
+src/gmr_ee_action.s: src/gmr_ee_action.cpp.s
+.PHONY : src/gmr_ee_action.s
+
+# target to generate assembly for a file
+src/gmr_ee_action.cpp.s:
+	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/gmr_ee_action.cpp.s
+.PHONY : src/gmr_ee_action.cpp.s
+>>>>>>> 4ff1e53e2144864457e43f7817dbae14dc4b711a
 
 # Help Target
 help:
@@ -760,9 +786,15 @@ help:
 	@echo "... src/gmmPlanner.o"
 	@echo "... src/gmmPlanner.i"
 	@echo "... src/gmmPlanner.s"
+<<<<<<< HEAD
 	@echo "... src/velocity_reguliser.o"
 	@echo "... src/velocity_reguliser.i"
 	@echo "... src/velocity_reguliser.s"
+=======
+	@echo "... src/gmr_ee_action.o"
+	@echo "... src/gmr_ee_action.i"
+	@echo "... src/gmr_ee_action.s"
+>>>>>>> 4ff1e53e2144864457e43f7817dbae14dc4b711a
 .PHONY : help
 
 

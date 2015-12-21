@@ -8,6 +8,7 @@
 #include "statistics/distributions/distributions.h"
 #include "statistics/distributions/gmm.h"
 
+
 #include <string>
 #include <armadillo>
 #include <random>
@@ -25,8 +26,6 @@ public:
 
     virtual void drawConditional(const arma::vec3 &position,arma::mat33 *const pRot = NULL );
 
-protected:
-
     void condition(arma::colvec& x);
 
 protected:
@@ -41,7 +40,7 @@ protected:
     bool bFirst;
 };
 
-class GMR_EE_Planner:     public BaseGMM_EE_Planner {
+class GMR_EE_Planner: public BaseGMM_EE_Planner {
 
 public:
 
