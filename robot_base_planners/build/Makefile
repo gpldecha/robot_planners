@@ -679,29 +679,29 @@ src/gmmPlanner.cpp.s:
 	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/gmmPlanner.cpp.s
 .PHONY : src/gmmPlanner.cpp.s
 
-src/planner_ee.o: src/planner_ee.cpp.o
-.PHONY : src/planner_ee.o
+src/velocity_reguliser.o: src/velocity_reguliser.cpp.o
+.PHONY : src/velocity_reguliser.o
 
 # target to build an object file
-src/planner_ee.cpp.o:
-	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/planner_ee.cpp.o
-.PHONY : src/planner_ee.cpp.o
+src/velocity_reguliser.cpp.o:
+	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/velocity_reguliser.cpp.o
+.PHONY : src/velocity_reguliser.cpp.o
 
-src/planner_ee.i: src/planner_ee.cpp.i
-.PHONY : src/planner_ee.i
+src/velocity_reguliser.i: src/velocity_reguliser.cpp.i
+.PHONY : src/velocity_reguliser.i
 
 # target to preprocess a source file
-src/planner_ee.cpp.i:
-	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/planner_ee.cpp.i
-.PHONY : src/planner_ee.cpp.i
+src/velocity_reguliser.cpp.i:
+	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/velocity_reguliser.cpp.i
+.PHONY : src/velocity_reguliser.cpp.i
 
-src/planner_ee.s: src/planner_ee.cpp.s
-.PHONY : src/planner_ee.s
+src/velocity_reguliser.s: src/velocity_reguliser.cpp.s
+.PHONY : src/velocity_reguliser.s
 
 # target to generate assembly for a file
-src/planner_ee.cpp.s:
-	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/planner_ee.cpp.s
-.PHONY : src/planner_ee.cpp.s
+src/velocity_reguliser.cpp.s:
+	$(MAKE) -f CMakeFiles/robot_base_planners.dir/build.make CMakeFiles/robot_base_planners.dir/src/velocity_reguliser.cpp.s
+.PHONY : src/velocity_reguliser.cpp.s
 
 # Help Target
 help:
@@ -760,9 +760,9 @@ help:
 	@echo "... src/gmmPlanner.o"
 	@echo "... src/gmmPlanner.i"
 	@echo "... src/gmmPlanner.s"
-	@echo "... src/planner_ee.o"
-	@echo "... src/planner_ee.i"
-	@echo "... src/planner_ee.s"
+	@echo "... src/velocity_reguliser.o"
+	@echo "... src/velocity_reguliser.i"
+	@echo "... src/velocity_reguliser.s"
 .PHONY : help
 
 

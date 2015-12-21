@@ -4,7 +4,7 @@ project(exploration_planner)
 find_package(catkin REQUIRED roscpp robot_base_planners kuka_action_server
 optitrack_rviz message_generation statistics_ml peg_sensor)
 
-set(CMAKE_CXX_FLAGS "-O2 -O3 -std=c++11 -mtune=native -fPIC -Wall -Wno-unused-function")       
+set(CMAKE_CXX_FLAGS "-O2 -O3 -std=c++11 -mtune=native -fPIC -Wall -Wno-unused-function -Wno-deprecated-declarations")
 
 find_package(Armadillo REQUIRED)
 

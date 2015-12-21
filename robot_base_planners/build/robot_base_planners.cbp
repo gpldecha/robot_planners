@@ -580,7 +580,7 @@
       </Unit>
       <Unit filename="/home/guillaume/roscode/catkin_ws/src/robot_planners/robot_base_planners/src/gmmPlanner.cpp">
       </Unit>
-      <Unit filename="/home/guillaume/roscode/catkin_ws/src/robot_planners/robot_base_planners/src/planner_ee.cpp">
+      <Unit filename="/home/guillaume/roscode/catkin_ws/src/robot_planners/robot_base_planners/src/velocity_reguliser.cpp">
       </Unit>
       <Unit filename="/usr/src/gtest/src/gtest-all.cc">
       </Unit>
@@ -592,7 +592,7 @@
       </Unit>
       <Unit filename="/home/guillaume/roscode/catkin_ws/src/robot_planners/robot_base_planners/include/robot_planners/gmmPlanner.h">
       </Unit>
-      <Unit filename="/home/guillaume/roscode/catkin_ws/src/robot_planners/robot_base_planners/include/robot_planners/planner_ee.h">
+      <Unit filename="/home/guillaume/roscode/catkin_ws/src/robot_planners/robot_base_planners/include/robot_planners/velocity_reguliser.h">
       </Unit>
       <Unit filename="/home/guillaume/roscode/catkin_ws/src/robot_planners/robot_base_planners/CMakeLists.txt">
           <Option virtualFolder="CMake Files\" />

@@ -12,7 +12,7 @@
 namespace planners{
 
 class Planner_ee : public asrv::Base_ee_action, public asrv::Base_action_server {
-
+/*
 public:
 
     Planner_ee(Base_EE_Planner& ee_planner,ros::NodeHandle& nh, const asrv::Action_ee_initialiser &action_ee_init);
@@ -23,6 +23,17 @@ private:
 
     Base_EE_Planner& ee_planner;
 
+    tf::Pose        des_ee_pose;    /// desired end-effector position
+
+
+    double          dt;
+    double          default_speed;
+    double          reachingThreshold;
+    double          orientationThreshold;
+
+    bool            initial_config;
+    std::size_t     tf_count;
+*/
 };
 
 }

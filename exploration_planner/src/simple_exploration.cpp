@@ -5,20 +5,19 @@ namespace belief{
 
 
 Simple_planner::Simple_planner(ros::NodeHandle&   nh,
-                               const std::string& topic_name,
-                               const std::string& world_frame,
-                               const asrv::Action_ee_initialiser &action_ee_init)
-    :Base_ee_action(nh,action_ee_init.ee_state_pos_topic,action_ee_init.ee_cmd_pos_topic,action_ee_init.ee_cmd_ft_topic),
+                               const std::string& world_frame)
+    :Base_ee_action(nh),
+      Base_action_server(nh),
       world_frame(world_frame)
 {
 
     // topics
 
-    belief_info_sub         = nh.subscribe(topic_name,1,&Simple_planner::topic_callback,this);
-    service_server          = nh.advertiseService("bel_simple_planner_cmd",&Simple_planner::service_callback,this);
+    //belief_info_sub         = nh.subscribe(topic_name,1,&Simple_planner::topic_callback,this);
+   // service_server          = nh.advertiseService("bel_simple_planner_cmd",&Simple_planner::service_callback,this);
 
-    reachingThreshold       = 0.0001;//action_ee_init.reachingThreshold;     // [m]
-    orientationThreshold    = action_ee_init.orientationThreshold;  // [rad]
+   // reachingThreshold       = 0.0001;//action_ee_init.reachingThreshold;     // [m]
+   // orientationThreshold    = action_ee_init.orientationThreshold;  // [rad]
 
     dt                      = 1.0/100.0;
     default_speed           = 0.002; // [m/s]
@@ -53,7 +52,7 @@ bool Simple_planner::service_callback(exploration_planner::String_cmd::Request& 
 }
 
 bool Simple_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal){
-
+/*
     tf::Transform trans_att;
 
     trans_att.setRotation(tf::Quaternion(goal->attractor_frame.rotation.x,goal->attractor_frame.rotation.y,
@@ -116,16 +115,16 @@ bool Simple_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feed
 
     bool bUseTruePosition = false;
 
-
-
+*/
+/*
     static tf::TransformBroadcaster br;
     tf::Vector3 true_peg_pos;
     arma::colvec3 velocity_tmp;
     double dist_bel_true = 1;
 
-    ros::Rate loop_rate(rate);
-    while(ros::ok() /*&& bBaseRun*/) {
-
+    ros::Rate loop_rate(rate);*/
+//    while(ros::ok() /*&& bBaseRun*/) {
+/*
         br.sendTransform(tf::StampedTransform(trans_att, ros::Time::now(), world_frame, "ee_final"));
 
         current_orient = ee_pose.getRotation();
@@ -236,7 +235,7 @@ bool Simple_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feed
 
         loop_rate.sleep();
 
-    }
+    }*/
 
   /*  if(!bBaseRun){
         return false;

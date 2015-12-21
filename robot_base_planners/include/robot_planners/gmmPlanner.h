@@ -21,9 +21,7 @@ public:
 
     BaseGMM_EE_Planner();
 
-    BaseGMM_EE_Planner(const std::vector<std::size_t>& in,const std::vector<std::size_t>& out);
-
-    void load(std::string path_parameters);
+    BaseGMM_EE_Planner(const std::string& path_parameters, const std::vector<std::size_t>& in,const std::vector<std::size_t>& out);
 
     virtual void drawConditional(const arma::vec3 &position,arma::mat33 *const pRot = NULL );
 
@@ -49,7 +47,7 @@ public:
 
     GMR_EE_Planner();
 
-    GMR_EE_Planner(const std::vector<std::size_t>& in,const std::vector<std::size_t>& out);
+    GMR_EE_Planner(const std::string& path_parameters,const std::vector<std::size_t>& in,const std::vector<std::size_t>& out);
 
     void gmr(arma::colvec& x_in);
 

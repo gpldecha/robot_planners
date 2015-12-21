@@ -3,23 +3,23 @@
 namespace belief{
 
 
-Gmm_planner::Gmm_planner(ros::NodeHandle&   nh,
-                               const std::string& topic_name,
-                               const std::string& world_frame,
-                                std::string path_parameters,
-                               const asrv::Action_ee_initialiser &action_ee_init)
-    :Base_ee_action(nh,action_ee_init.ee_state_pos_topic,action_ee_init.ee_cmd_pos_topic,action_ee_init.ee_cmd_ft_topic),
-      world_frame(world_frame),peg_sensor_listener(nh,"sensor_topic_name")
+Gmm_planner::Gmm_planner(ros::NodeHandle&  nh,
+                         const std::string& world_frame,
+                         std::string path_parameters):
+  Base_action_server(nh),
+  Base_ee_action(nh),
+  world_frame(world_frame),
+  peg_sensor_listener(nh,"sensor_topic_name")
 {
 
     // topics
 
-    belief_info_sub         = nh.subscribe(topic_name,1,&Gmm_planner::topic_callback,this);
+/*    belief_info_sub         = nh.subscribe(topic_name,1,&Gmm_planner::topic_callback,this);
     service_server          = nh.advertiseService("bel_simple_planner_cmd",&Gmm_planner::service_callback,this);
 
     reachingThreshold       = action_ee_init.reachingThreshold;     // [m]
     orientationThreshold    = action_ee_init.orientationThreshold;  // [rad]
-
+*/
     dt                      = 1.0/100.0;
     default_speed           = 0.002; // [m/s]
     bSimulation             = true;
@@ -42,7 +42,7 @@ Gmm_planner::Gmm_planner(ros::NodeHandle&   nh,
     std::cout<< "===>   " << path_parameters << std::endl;
 
     std::cout<< "=== belief_gmm_planner load parameters ===" << std::endl;
-    gmap_planner.load(path_parameters);
+    //gmap_planner.load(path_parameters);
 
 
 
@@ -83,10 +83,10 @@ bool Gmm_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedbac
 
     tf::Transform trans_att;
 
-    trans_att.setRotation(tf::Quaternion(goal->attractor_frame.rotation.x,goal->attractor_frame.rotation.y,
-                                         goal->attractor_frame.rotation.z,goal->attractor_frame.rotation.w));
-    trans_att.setOrigin(tf::Vector3(goal->attractor_frame.translation.x, goal->attractor_frame.translation.y,
-                                    goal->attractor_frame.translation.z));
+    trans_att.setRotation(tf::Quaternion(goal->target_frame.rotation.x,goal->target_frame.rotation.y,
+                                         goal->target_frame.rotation.z,goal->target_frame.rotation.w));
+    trans_att.setOrigin(tf::Vector3(goal->target_frame.translation.x, goal->target_frame.translation.y,
+                                    goal->target_frame.translation.z));
 
 
     ros::Rate wait(1);
@@ -94,7 +94,7 @@ bool Gmm_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedbac
     tf::Transform trans_ee_belief,trans_ee_goal;
 
    // tf::Vector3     current_origin = ee_pose.getOrigin();
-    tf::Quaternion  current_orient = ee_pose.getRotation();
+    //tf::Quaternion  current_orient = ee_pose.getRotation();
 
     trans_ee_goal = trans_att;
 
@@ -140,7 +140,7 @@ bool Gmm_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedbac
 
         br.sendTransform(tf::StampedTransform(trans_att, ros::Time::now(), world_frame, "ee_final"));
 
-        current_orient = ee_pose.getRotation();
+        //current_orient = ee_pose.getRotation();
 
         if(peg_sensor_listener.Y(0) < 0.01){
             bSensed = true;
@@ -164,18 +164,18 @@ bool Gmm_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedbac
         speed            = (max_speed * bell_velocity(dist_targ_origin * 100.0,beta,offset));    // convert [m] -> [cm]
         velocity         = speed * velocity.normalize();
 
-        ROS_INFO("x : %f %f %f",ee_pose.getOrigin().x(),ee_pose.getOrigin().y(),ee_pose.getOrigin().z());
+        /*ROS_INFO("x : %f %f %f",ee_pose.getOrigin().x(),ee_pose.getOrigin().y(),ee_pose.getOrigin().z());
         ROS_INFO("hx: %f %f %f",hx_current_origin.x(),hx_current_origin.y(),hx_current_origin.z());
         ROS_INFO("ve: %f %f %f",velocity.x(),velocity.y(),velocity.z());
         ROS_INFO("speed: %f",velocity.length());
 
         des_ee_pose.setOrigin(velocity + ee_pose.getOrigin());
         des_ee_pose.setRotation( current_orient.slerp(target_orient, slerp_t)      );
-
+*/
         dist_targ_target = acos(abs(target_orient.dot(current_orient)));
 
         if(!bPause){
-            sendPose(des_ee_pose);
+       //     sendPose(des_ee_pose);
         }
 
         feedback.progress = 0;

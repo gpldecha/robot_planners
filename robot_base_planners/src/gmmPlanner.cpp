@@ -14,15 +14,11 @@ using namespace planners;
 BaseGMM_EE_Planner::BaseGMM_EE_Planner(){
     bFirst = true;
 }
-BaseGMM_EE_Planner::BaseGMM_EE_Planner(const std::vector<std::size_t>& in,const std::vector<std::size_t>& out)
+BaseGMM_EE_Planner::BaseGMM_EE_Planner(const std::string& path_parameters, const std::vector<std::size_t>& in,const std::vector<std::size_t>& out)
     : in(in),out(out)
 {
-    bFirst = true;
-}
-
-
-void BaseGMM_EE_Planner::load(std::string path_parameters){
     gmm.load(path_parameters);
+    bFirst = true;
 }
 
 void BaseGMM_EE_Planner::condition(arma::colvec& x){
@@ -72,8 +68,8 @@ GMR_EE_Planner::GMR_EE_Planner()
 
 }
 
-GMR_EE_Planner::GMR_EE_Planner(const std::vector<std::size_t>& in,const std::vector<std::size_t>& out):
-    BaseGMM_EE_Planner(in,out)
+GMR_EE_Planner::GMR_EE_Planner(const std::string& path_parameters, const std::vector<std::size_t>& in,const std::vector<std::size_t>& out):
+    BaseGMM_EE_Planner(path_parameters,in,out)
 {
 
 }
@@ -104,9 +100,9 @@ GMAPlanner::GMAPlanner(){
     bFirst=true;
 }
 
-GMAPlanner::GMAPlanner(string path_parameters){
+GMAPlanner::GMAPlanner(std::string path_parameters){
 
-    load(path_parameters);
+    //load(path_parameters);
 
 }
 

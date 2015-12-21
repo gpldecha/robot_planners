@@ -42,11 +42,7 @@ class Gmm_planner : public asrv::Base_ee_action, public asrv::Base_action_server
 
 public:
 
-    Gmm_planner(ros::NodeHandle&   nh,
-                   const std::string& topic_name,
-                   const std::string& world_frame,
-                   string path_parameters,
-                   const asrv::Action_ee_initialiser &action_ee_init);
+    Gmm_planner(ros::NodeHandle&   nh, const std::string& world_frame, std::string path_parameters);
 
     virtual bool execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal);
 
