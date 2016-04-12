@@ -6,9 +6,7 @@ namespace belief{
 
 Simple_planner::Simple_planner(ros::NodeHandle&   nh,
                                const std::string& world_frame)
-    :Base_ee_action(nh),
-      Base_action_server(nh),
-      world_frame(world_frame)
+    :world_frame(world_frame)
 {
 
     // topics
@@ -51,7 +49,7 @@ bool Simple_planner::service_callback(exploration_planner::String_cmd::Request& 
     }
 }
 
-bool Simple_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal){
+//bool Simple_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal){
 /*
     tf::Transform trans_att;
 
@@ -242,8 +240,8 @@ bool Simple_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feed
     }else{
         return true;
     }*/
-    return true;
-}
+  //  return true;
+//}
 
 
 }

@@ -12,8 +12,8 @@ int main(int argc,char** argv){
     std::string sensor_topic_name = "sensor_topic";
     std::string fixed_frame       = "world_frame";
 
-    asrv::Action_ee_initialiser init_ee;
-    init_ee.action_name = "gmm_exploration";
+    //asrv::Action_ee_initialiser init_ee;
+    //init_ee.action_name = "gmm_exploration";
 
 
 

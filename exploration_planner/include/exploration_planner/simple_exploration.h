@@ -17,9 +17,6 @@
   **/
 
 #include <ros/ros.h>
-#include <kuka_action_server/action_server.h>
-#include <kuka_action_server/base_ee_action.h>
-#include <kuka_common_action_server/action_initialiser.h>
 #include <std_msgs/Float64MultiArray.h>
 
 #include <visualise/vis_points.h>
@@ -30,13 +27,13 @@
 
 namespace belief{
 
-class Simple_planner : public asrv::Base_ee_action, public asrv::Base_action_server{
+class Simple_planner {
 
 public:
 
     Simple_planner(ros::NodeHandle&   nh,  const std::string& world_frame);
 
-    virtual bool execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal);
+    //virtual bool execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal);
 
 private:
 

@@ -17,9 +17,6 @@
   **/
 
 #include <ros/ros.h>
-#include <kuka_action_server/action_server.h>
-#include <kuka_action_server/base_ee_action.h>
-#include <kuka_common_action_server/action_initialiser.h>
 #include <std_msgs/Float64MultiArray.h>
 
 #include <visualise/vis_points.h>
@@ -34,58 +31,91 @@
 
 #include "peg_sensor/listener.h"
 
+/**
+ *  GMM belief space planner.
+ *
+ *  Takes as input, the current belief state feature vector and outputs a desired direction.
+ */
 
 
 namespace belief{
 
-class Gmm_planner : public asrv::Base_ee_action, public asrv::Base_action_server{
+typedef struct Gmm_planner_initialiser{
+    Gmm_planner_initialiser(){
+        world_frame         = "/world";
+        sensor_topic        = "";
+        ft_classifier_topic = "";
+        bel_feature_topic   = "";
+        path_parameters     = "";
+        belief_state_size   = 4;
+    }
+
+    std::string world_frame, sensor_topic,ft_classifier_topic,bel_feature_topic,path_parameters;
+    std::size_t belief_state_size;
+} Gmm_planner_initialiser;
+
+class Gmm_planner{
 
 public:
 
-    Gmm_planner(ros::NodeHandle&   nh, const std::string& world_frame, std::string path_parameters);
+    typedef enum CONDITIONAL_TYPE{
+        GMR,
+        GMA
+    }CONDITIONAL_TYPE;
 
-    virtual bool execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal);
+public:
+
+    Gmm_planner(ros::NodeHandle&   nh,Gmm_planner_initialiser init);
+
+    void get_linear_velocity(arma::colvec3& velocity);
+
+    //virtual bool execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal);
+
+    void print() const;
 
 private:
 
 
     bool service_callback(exploration_planner::String_cmd::Request& req,exploration_planner::String_cmd::Response& res);
 
-    void topic_callback(const std_msgs::Float64MultiArrayConstPtr& msg);
+    void belief_state_callback(const std_msgs::Float64MultiArrayConstPtr& msg);
 
     inline double bell_velocity(double x,double beta,double off){
         return 1.0 - exp(-beta * (x+off) * (x+off));
     }
 
+    inline double rescale(double x,double a,double b,double c,double d){
+        return -(-b*c + a*d)/(-a + b) + (-c + d)*x/(-a + b);
+    }
+
+public:
+
+    arma::colvec             belief_state,belief_state_SF;
+
 
 private:
 
-    planners::GMAPlanner    gmap_planner;
+    planners::GMAPlanner     gmap_planner;
+    planners::GMR_EE_Planner gmr_planner;
 
-    ros::Subscriber         belief_info_sub; /// subscriber to
-    tf::Vector3             hx_current_origin; /// arg max{p(x)}, E{p(x)}, ...s
-    tf::Quaternion          current_orient;
+    stats::Load_param::scale        scale_;
 
-    tf::Pose                des_ee_pose;    /// desired end-effector position
+    arma::colvec3            direction,direction_tmp;
 
+    ros::Subscriber          belief_info_sub; /// subscriber to
+    arma::colvec             tmp_bel_state;
 
-    tf::Transform            virtual_end_effector;
+    // Transformation between world FR and peg_link FR
+    arma::colvec3            T;
+    arma::mat33              Rt;
+    arma::colvec3            pos_tmp;
+    CONDITIONAL_TYPE         conditional_type;
 
-    std::string              world_frame;
 
     ros::ServiceServer       service_server;
 
-    psm::Peg_sensor_listener  peg_sensor_listener;
+    std::string              world_frame;
 
-
-    double                   dt;
-    double                   dist_targ_target;
-
-    double                   reachingThreshold;
-    double                   orientationThreshold;
-    double                   default_speed;
-
-    bool                     bSimulation;
     bool                     bPause;
 
 };

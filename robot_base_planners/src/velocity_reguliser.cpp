@@ -1,6 +1,7 @@
 #include "robot_planners/velocity_reguliser.h"
 #include <cmath>
 #include <iostream>
+#include <ros/ros.h>
 
 Velocity_reguliser::Velocity_reguliser(double max_speed, double min_speed):
 min_speed(min_speed),
@@ -21,10 +22,12 @@ double Velocity_reguliser::bel_shape_curve(double distance_target_m, double beta
 
     distance_target_cm = 100 * distance_target_m;
 
-    std::cout<< "distance[cm]:  " << distance_target_cm << std::endl;
-    std::cout<< "1-exp:         " << (1.0 - std::exp(-beta * (distance_target_cm * distance_target_cm))) << std::endl;
-    std::cout<< "raw speed:     " << (min_speed + (1.0 - std::exp(-beta * (distance_target_cm * distance_target_cm))) * max_speed) << std::endl;
-    std::cout<< "speed:         " << scale((1.0 - std::exp(-beta * (distance_target_cm * distance_target_cm))),0,1,min_speed,max_speed) << std::endl;
+    ROS_INFO_STREAM_THROTTLE(1.0,"distance_target_cm: " << distance_target_cm);
+
+ //   std::cout<< "distance[cm]:  " << distance_target_cm << std::endl;
+  //  std::cout<< "1-exp:         " << (1.0 - std::exp(-beta * (distance_target_cm * distance_target_cm))) << std::endl;
+  //  std::cout<< "raw speed:     " << (min_speed + (1.0 - std::exp(-beta * (distance_target_cm * distance_target_cm))) * max_speed) << std::endl;
+  //  std::cout<< "speed:         " << scale((1.0 - std::exp(-beta * (distance_target_cm * distance_target_cm))),0,1,min_speed,max_speed) << std::endl;
 
     return scale((1.0 - std::exp(-beta * (distance_target_cm * distance_target_cm))),0,1,min_speed,max_speed);
 
