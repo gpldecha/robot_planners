@@ -3,11 +3,13 @@
 #include <optitrack_rviz/type_conversion.h>
 #include <optitrack_rviz/debug.h>
 
+const static bool   debug_flag      = true;
+const static double time_throttle   = 0.1;
+
 namespace belief{
 
 
 Gmm_planner::Gmm_planner(ros::NodeHandle&  nh,Gmm_planner_initialiser init):
- /* peg_sensor_listener(nh,init.sensor_topic),*/
   world_frame(init.world_frame)
 {
 
@@ -28,28 +30,38 @@ Gmm_planner::Gmm_planner(ros::NodeHandle&  nh,Gmm_planner_initialiser init):
     Rt          = Rt.st();
     bPause      = true;
 
-    std::string path_gmm_search = "/home/guillaume/MatlabWorkSpace/peg_in_hole_RL/PolicyModelSaved/PolicyModel_txt/gmm_xhu_seprate";
+    std::string path_to_param_folders   = init.path_parameters;
+    std::string model_name              = "qem_xhu_seprate";
 
 
     ///      Load GMMs
-    gmr_planner  = planners::GMR_EE_Planner(init.path_parameters);
-    gmap_planner = planners::GMAPlanner(path_gmm_search);
+    gmr_planner  = planners::GMR_EE_Planner(path_to_param_folders + model_name);
 
+  //  gmap_planner = planners::GMAPlanner(path_gmm_search);
 
     ///      Initialise belief vector
     belief_state.zeros(gmr_planner.get_in().size());
     belief_state_SF = belief_state;
-
     conditional_type = GMR;
 
 
+    /// test
+    {
+        belief_state_SF(0) =  0.025;
+        belief_state_SF(1) = -0.03;
+        belief_state_SF(2) =  0;
+        belief_state_SF(3) = -11.913400215435388;
+
+        gmr_planner.gmm.print(0);
+        gmr_planner.gmr(belief_state_SF);
+        gmr_planner.get_ee_linear_velocity(direction);
+        gmr_planner.gmm_c.gmm_c.print(0);
+        direction.print("test direction");
+    }
+
+    std::cout<< "finished gmm_planner contructor [belief_gmm_planner.cpp]" << std::endl;
 }
-/*
-    stats::Load_param load_param;
-    load_param.load_scale(init.path_parameters);
-    scale_ = load_param.scale_;
-    scale_.print();
-*/
+
 
 void Gmm_planner::print() const{
     std::cout<< "=== GMM BELIEF PLANNER ===" << std::endl;
@@ -89,10 +101,16 @@ void Gmm_planner::get_linear_velocity(arma::colvec3& velocity){
     case GMR:
     {
 
-       // std::cout<< "GMR" << std::endl;
+        if(debug_flag){
+            ROS_INFO_STREAM_THROTTLE(time_throttle,"GMR");
+            ROS_INFO_STREAM_THROTTLE(time_throttle,"bel_SF: " << belief_state_SF(0) << " " << belief_state_SF(1) << " " << belief_state_SF(2));
+        }
         gmr_planner.gmr(belief_state_SF);
         gmr_planner.get_ee_linear_velocity(direction);
-      //  std::cout<< "after get linear velocity" << std::endl;
+        if(debug_flag){
+            ROS_INFO_STREAM_THROTTLE(time_throttle,"direction: " << direction(0) << " " << direction(1) << " " << direction(2));
+        }
+
         break;
     }
     case GMA:
@@ -109,11 +127,6 @@ void Gmm_planner::get_linear_velocity(arma::colvec3& velocity){
     velocity      = direction;
     direction_tmp = direction;
 }
-
-
-//bool Gmm_planner::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal){
-//    return true;
-//}
 
 void Gmm_planner::belief_state_callback(const std_msgs::Float64MultiArrayConstPtr &msg){
    // std::cout<< "belief_state_callback" << std::endl;

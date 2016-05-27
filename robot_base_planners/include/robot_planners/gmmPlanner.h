@@ -1,8 +1,6 @@
 #ifndef GMMCONTROLLER_H_
 #define GMMCONTROLLER_H_
 
-//#include <kuka_action_server/base_ee_action.h>
-
 #include "basePlanner.h"
 #include "statistics/distributions/distributions.h"
 #include "statistics/distributions/gmm.h"
@@ -24,8 +22,6 @@ public:
     BaseGMM_EE_Planner(const std::string& path_parameters);
 
     BaseGMM_EE_Planner(const std::string& path_parameters, const std::vector<std::size_t>& in,const std::vector<std::size_t>& out);
-
-    virtual void drawConditional(const arma::vec3 &position,arma::mat33 *const pRot = NULL );
 
     const std::vector<std::size_t>& get_in() const;
 
@@ -57,7 +53,7 @@ public:
 
     GMR_EE_Planner(const std::string& path_parameters,const std::vector<std::size_t>& in,const std::vector<std::size_t>& out);
 
-    void gmr(arma::colvec& x_in);
+    void gmr(const arma::colvec& x_in);
 
     void get_ee_linear_velocity(arma::colvec3 &direction);
 
@@ -91,34 +87,24 @@ public:
 
 private:
 
+    void init();
+
+    void get_alphas(const arma::colvec& w,const std::vector<arma::colvec>& V, const arma::colvec3& vtmp);
+
     void pick_random_direction(arma::vec3 &direction);
-
-    void get_alpha(const arma::vec3& vtmp);
-
-    void get_indexs(double threashold=0.1);
-
-    void isOverTable();
 
 private:
 
-
-    arma::vec3 mu;
-
+    arma::colvec3 mu_k;
 
     bool bFirst;
     arma::vec3 mDirection;
-    arma::vec3 mDirection_tmp;
+    arma::vec3 vtmp;
 
-    std::vector<double> alphas;
-    std::vector<unsigned int> index;
+
+    arma::colvec alphas;
 
     double      max_alpha;
-    double      beta;
-    double      sum_alpha;
-    std::size_t max_index;
-    double      max_pi, pi_tmp;
-
-
     std::discrete_distribution<int> dist_mus;
     std::default_random_engine generator;
 

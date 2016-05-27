@@ -69,8 +69,6 @@ public:
 
     void get_linear_velocity(arma::colvec3& velocity);
 
-    //virtual bool execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal);
-
     void print() const;
 
 private:
@@ -97,8 +95,6 @@ private:
 
     planners::GMAPlanner     gmap_planner;
     planners::GMR_EE_Planner gmr_planner;
-
-    stats::Load_param::scale        scale_;
 
     arma::colvec3            direction,direction_tmp;
 

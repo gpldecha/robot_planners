@@ -2,16 +2,16 @@
 #define PLANNER_EE_H_
 
 #include <ros/ros.h>
-#include <kuka_action_server/action_server.h>
-#include <kuka_action_server/base_ee_action.h>
-#include <kuka_common_action_server/action_initialiser.h>
+//#include <kuka_action_server/action_server.h>
+//#include <kuka_action_server/base_ee_action.h>
+//#include <kuka_common_action_server/action_initialiser.h>
 #include <std_msgs/Float64MultiArray.h>
 
 #include "basePlanner.h"
 
 namespace planners{
 
-class Planner_ee : public asrv::Base_ee_action, public asrv::Base_action_server {
+//class Planner_ee : public asrv::Base_ee_action, public asrv::Base_action_server {
 /*
 public:
 
@@ -34,7 +34,7 @@ private:
     bool            initial_config;
     std::size_t     tf_count;
 */
-};
+//};
 
 }
 
